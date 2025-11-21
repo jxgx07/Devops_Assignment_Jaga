@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')  // Jenkins credential ID
         DOCKERHUB_USER = "${DOCKERHUB_CREDENTIALS_USR}"
         DOCKERHUB_PASS = "${DOCKERHUB_CREDENTIALS_PSW}"
-        IMAGE_NAME = "yourdockerhubusername/react-app"
+        IMAGE_NAME = "jaga0007/react-app"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
     tools {
