@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        IMAGE_NAME = "jaga0007/react-app"
+        IMAGE_NAME = "jaga00007/react-app"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
