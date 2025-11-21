@@ -8,7 +8,9 @@ pipeline {
         IMAGE_NAME = "yourdockerhubusername/react-app"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
-
+    tools {
+        nodejs "node20"
+    }
     stages {
 
         stage('Checkout') {
