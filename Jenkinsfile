@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')  // Jenkins credential ID
-        DOCKERHUB_USER = "${DOCKERHUB_CREDENTIALS_USR}"
-        DOCKERHUB_PASS = "${DOCKERHUB_CREDENTIALS_PSW}"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         IMAGE_NAME = "jaga0007/react-app"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
+
     tools {
         nodejs "node20"
     }
+
     stages {
 
         stage('Checkout') {
@@ -52,16 +52,17 @@ pipeline {
                     trivy image --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
                 """
             }
-            post {
-                failure {
-                    echo "❌ Security vulnerabilities found. Failing pipeline."
-                }
-            }
         }
 
         stage('Docker Login') {
             steps {
-                sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKERHUB_USER',
+                    passwordVariable: 'DOCKERHUB_PASS'
+                )]) {
+                    sh 'echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin'
+                }
             }
         }
 
